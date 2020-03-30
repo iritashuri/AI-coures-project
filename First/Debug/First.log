@@ -1,3 +1,0 @@
-﻿  main.cpp
-c:\users\afeka\desktop\bullets\first\first\main.cpp(43): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-  First.vcxproj -> C:\Users\afeka\Desktop\bullets\First\Debug\First.exe
