@@ -238,7 +238,7 @@ void SetupMaze()
 	for (numExistingRooms = 0; numExistingRooms < NUM_ROOMS; numExistingRooms++)
 		rooms[numExistingRooms] = GenerateRoom();
 
-	for (k = 0; k < 30; k++)
+	for (k = 0; k < 100; k++)
 	{
 		i = rand() % MSZ;
 		j = rand() % MSZ;
