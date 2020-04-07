@@ -1,4 +1,6 @@
 #include "Character.h"
+#include "Point2D.h"
+#include "Node.h"
 
 Character::Character()
 {
@@ -8,13 +10,13 @@ Character::~Character()
 {
 }
 
-Character::Character(int v, int id)
+Character::Character(int v, int id, Point2D loc)
 {
 	value = v;
 	groupId = id;
 	ammoStock = 20;
-	medStock = 20;
-	lifeStatus = 10;
+	lifeStatus = 100;
+	location = loc;
 }
 
 
@@ -38,16 +40,6 @@ int Character::getAmmoStock()
 	return ammoStock;
 }
 
-void Character::setMedStock(int amount)
-{
-	medStock += amount;
-}
-
-int Character::getMedStock()
-{
-	return medStock;
-}
-
 void Character::setLifeStatus(int amount)
 {
 	lifeStatus += amount;
@@ -56,5 +48,15 @@ void Character::setLifeStatus(int amount)
 int Character::getLifeStatus()
 {
 	return lifeStatus;
+}
+
+void Character::setLocation(Point2D loc)
+{
+	location = loc;
+}
+
+Point2D Character::getLocation()
+{
+	return location;
 }
 

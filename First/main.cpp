@@ -238,7 +238,7 @@ void SetupMaze()
 	for (numExistingRooms = 0; numExistingRooms < NUM_ROOMS; numExistingRooms++)
 		rooms[numExistingRooms] = GenerateRoom();
 
-	for (k = 0; k < 100; k++)
+	for (k = 0; k < 30; k++)
 	{
 		i = rand() % MSZ;
 		j = rand() % MSZ;
@@ -369,8 +369,7 @@ void GenerateMap()
 		{
 			col = rand() % MSZ;
 			row = rand() % MSZ;
-		} while (maze[row][col].GetValue() != SPACE && maze[row][col].GetValue() != ROOM_SPACE
-			&& maze[row][col].GetValue() != AMMO && maze[row][col].GetValue() != MEDICATION);
+		} while (maze[row][col].GetValue() != SPACE && maze[row][col].GetValue() != ROOM_SPACE);
 		sz = 2.0 / MSZ;
 		x = col * sz - 1;
 		y = row * sz - 1;
