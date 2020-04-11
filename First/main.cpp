@@ -31,6 +31,7 @@ int medRow, medCol, ammoRow, ammoCol;
 
 
 
+
 vector <Node> gray; // gray nodes
 
 
@@ -162,7 +163,9 @@ void GeneratePath(Point2D start, Point2D target)
 			{
 				if (maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != AMMO &&
 					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != MEDICATION &&
-					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != ROOM_SPACE)
+					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != ROOM_SPACE &&
+					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != GROUP_1&&
+					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != GROUP_2)
 					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].SetValue(SPACE);
 				pn = pn->getParent();
 			}
@@ -230,6 +233,7 @@ void SetupMaze()
 {
 	int i, j, k;
 	bool isRoom = false;
+	int count = 0;
 
 	for (i = 0; i < MSZ; i++)
 		for (j = 0; j < MSZ; j++)
@@ -247,33 +251,74 @@ void SetupMaze()
 
 	DigTunnels();
 	//set ammo
-	while (!isRoom) {
-		i = rand() % MSZ;
-		j = rand() % MSZ;
-		if (maze[i][j].GetValue() == ROOM_SPACE) {
-			maze[i][j].SetValue(AMMO);
-			ammoRow = i;
-			ammoCol = j;
-			//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
+	while (count < 2) {
+		while (!isRoom) {
+			i = rand() % MSZ;
+			j = rand() % MSZ;
+			if (maze[i][j].GetValue() == ROOM_SPACE) {
+				maze[i][j].SetValue(AMMO);
+				ammoRow = i;
+				ammoCol = j;
+				//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
 
-			isRoom = true;
+				isRoom = true;
+			}
+
 		}
-
+		isRoom = false;
+		count++;
 	}
-	isRoom = false;
 	//set medication
-	while (!isRoom) {
-		i = rand() % MSZ;
-		j = rand() % MSZ;
-		if (maze[i][j].GetValue() == ROOM_SPACE) {
-			maze[i][j].SetValue(MEDICATION);
-			medRow = i;
-			medCol = j;
-			//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
+	count = 0;
+	while (count < 2) {
+		while (!isRoom) {
+			i = rand() % MSZ;
+			j = rand() % MSZ;
+			if (maze[i][j].GetValue() == ROOM_SPACE) {
+				maze[i][j].SetValue(MEDICATION);
+				medRow = i;
+				medCol = j;
+				//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
 
-			isRoom = true;
+				isRoom = true;
+			}
 		}
+		isRoom = false;
+		count++;
+	}
+	//set group1
+	count = 0;
+	while (count < 2) {
+		while (!isRoom) {
+			i = rand() % MSZ;
+			j = rand() % MSZ;
+			if (maze[i][j].GetValue() == ROOM_SPACE) {
+				maze[i][j].SetValue(GROUP_1);
+				//create character1-2
+				//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
 
+				isRoom = true;
+			}
+		}
+		isRoom = false;
+		count++;
+	}
+	//set group2
+	count = 0;
+	while (count < 2) {
+		while (!isRoom) {
+			i = rand() % MSZ;
+			j = rand() % MSZ;
+			if (maze[i][j].GetValue() == ROOM_SPACE) {
+				maze[i][j].SetValue(GROUP_2);
+				//create character2
+				//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
+
+				isRoom = true;
+			}
+		}
+		isRoom = false;
+		count++;
 	}
 }
 
@@ -307,7 +352,13 @@ void DrawMaze()
 				glColor3d(0, 1, 0); // green
 				break;
 			case MEDICATION:
-				glColor3d(1, 1, 0); // yellow
+				glColor3d(0, 0, 1); // blue
+				break;
+			case GROUP_1:
+				glColor3d(1, 0, 1); // puple
+				break;
+			case GROUP_2:
+				glColor3d(1,0.5,0); // orange
 				break;
 			}
 

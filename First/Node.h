@@ -11,6 +11,8 @@ const int BLACK = 6; // VISITED
 const int AMMO = 7;
 const int MEDICATION = 8;
 const int ROOM_SPACE = 9;
+const int GROUP_1 = 10;
+const int GROUP_2 = 11;
 
 class Node
 {
