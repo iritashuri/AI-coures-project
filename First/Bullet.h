@@ -18,6 +18,8 @@ public:
 	void SetDir(double angle);
 	void SimulateMotion(double map[MSZ][MSZ], Node maze[MSZ][MSZ]);
 
+	void SimulateMotionToSpecDir(double map[MSZ][MSZ], Node maze[MSZ][MSZ], double directionx, double directiony);
+
 private:
 	double x, y;
 	double dirx, diry;

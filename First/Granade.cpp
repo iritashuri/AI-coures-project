@@ -55,3 +55,24 @@ void Granade::SimulateExplosion(double map[MSZ][MSZ], Node maze[MSZ][MSZ])
 	}
 
 }
+void Granade::shoot(Bullet* b) {
+
+	b->SetIsMoving(true);
+}
+
+void Granade::buletShowMe(Bullet* b)
+{
+		b->showMe();
+}
+void Granade::moveBullet(Node maze[MSZ][MSZ], Bullet* b)
+{
+	b->move(maze);
+
+}
+void Granade::Simulateshoot(double map[MSZ][MSZ], Node maze[MSZ][MSZ], Bullet* b)
+{
+	
+		b->SetIsMoving(true);
+		b->SimulateMotion(map, maze);
+
+}

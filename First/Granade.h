@@ -14,6 +14,10 @@ public:
 	void showMe();
 	void moveBullets(Node maze[MSZ][MSZ]);
 	void SimulateExplosion(double map[MSZ][MSZ], Node maze[MSZ][MSZ]);
+	void shoot(Bullet * b);
+	void buletShowMe(Bullet * b);
+	void moveBullet(Node maze[MSZ][MSZ], Bullet * b);
+	void Simulateshoot(double map[MSZ][MSZ], Node maze[MSZ][MSZ], Bullet * b);
 private:
 	double x, y;
 	Bullet* bullets[NUM_BULLETS];

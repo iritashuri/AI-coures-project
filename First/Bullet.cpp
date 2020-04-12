@@ -95,3 +95,23 @@ void Bullet::SimulateMotion(double map[MSZ][MSZ], Node maze[MSZ][MSZ])
 	}
 
 }
+
+void Bullet::SimulateMotionToSpecDir(double map[MSZ][MSZ], Node maze[MSZ][MSZ], 
+	double directionx, double directiony)
+{
+	int i, j;
+	i = MSZ * (y + 1) / 2;
+	j = MSZ * (x + 1) / 2;
+
+	while (maze[i][j].GetValue() == SPACE || maze[i][j].GetValue() == ROOM_SPACE ||
+		maze[i][j].GetValue() == AMMO || maze[i][j].GetValue() == MEDICATION ||
+		maze[i][j].GetValue() == GROUP_1 || maze[i][j].GetValue() == GROUP_2)
+	{
+		map[i][j] += delta;
+		x += 0.001*directionx;
+		y += 0.001*directiony;
+		i = MSZ * (y + 1) / 2;
+		j = MSZ * (x + 1) / 2;
+	}
+
+}

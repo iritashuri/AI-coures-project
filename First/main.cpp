@@ -440,6 +440,7 @@ void display()
 	{
 		//	pb->showMe();
 		pg->showMe();
+		pg->buletShowMe(pb);
 	}
 
 	glutSwapBuffers();// show what was drawn in "frame buffer"
@@ -481,7 +482,7 @@ void idle()
 		//		pb->SetIsMoving(CheckIsSpace(pb->getX(),pb->getY()));
 		//		pb->move();
 		pg->moveBullets(maze);
-
+		pg->moveBullet(maze, pb);
 		//		move_on = pg->GetIsMoving();
 	}
 	glutPostRedisplay();// calls indirectly to display
@@ -502,7 +503,13 @@ void Menu(int choice)
 		pg->explode();
 		move_on = true;
 	}
-
+	else if (choice == 3) // generate security map
+	{
+		glutDisplayFunc(display);
+		pb->SetIsMoving(true);
+		pg->shoot(pb);
+		move_on = true;
+	}
 }
 
 void mouse(int button, int state, int x, int y)
@@ -513,7 +520,7 @@ void mouse(int button, int state, int x, int y)
 		xx = 2 * (double)x / W - 1;
 		yy = 2 * ((double)H - y) / H - 1;
 
-		//		pb = new Bullet(xx,yy);
+		pb = new Bullet(xx,yy);
 		pg = new Granade(xx, yy);
 	}
 	if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
@@ -540,6 +547,7 @@ void main(int argc, char* argv[])
 	glutCreateMenu(Menu);
 	glutAddMenuEntry("Generate map", 1);
 	glutAddMenuEntry("Explode", 2);
+	glutAddMenuEntry("Shoot", 3);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 
