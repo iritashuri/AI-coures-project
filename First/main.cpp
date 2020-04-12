@@ -532,6 +532,103 @@ void mouse(int button, int state, int x, int y)
 	}
 
 }
+
+// check if the node at row,col is white or gray that is better then the previous one
+// and if so add it to pq
+void AddNodeMap(int row, int col, Node* pn, vector<Node> &gray, vector<Node> &black,
+	priority_queue <Node*, vector<Node*>, CompareNodes> &pq)
+{
+	Point2D pt;
+	Node* pn1;
+	vector<Node>::iterator gray_it;
+	vector<Node>::iterator black_it;
+	double cost;
+
+	pt.setRow(row);
+	pt.setCol(col);
+	if (maze[row][col].GetValue() == WALL)
+		return; //do not add walls
+	else if (maze[row][col].GetValue() == SPACE || maze[row][col].GetValue() == ROOM_SPACE)
+		cost = map[row][col]; // map cost
+	// cost depends on is it a wall or a space
+	pn1 = new Node(pt, pn->getTarget(), maze[pt.getRow()][pt.getCol()].GetValue(), pn->getG() + cost, pn);
+
+	black_it = find(black.begin(), black.end(), *pn1);
+	gray_it = find(gray.begin(), gray.end(), *pn1);
+	if (black_it == black.end() && gray_it == gray.end()) // it is not black and not gray!
+	{// i.e. it is white
+		pq.push(pn1);
+		gray.push_back(*pn1);
+	}
+}
+
+
+void AddNeighboursChar(Node* pn, vector<Node> &gray, vector<Node> &black,
+	priority_queue <Node*, vector<Node*>, CompareNodes> &pq)
+{
+	// try down
+	if (pn->getPoint().getRow() < MSZ - 1)
+		AddNodeMap(pn->getPoint().getRow() + 1, pn->getPoint().getCol(), pn, gray, black, pq);
+	// try up
+	if (pn->getPoint().getRow() > 0)
+		AddNodeMap(pn->getPoint().getRow() - 1, pn->getPoint().getCol(), pn, gray, black, pq);
+	// try left
+	if (pn->getPoint().getCol() > 0)
+		AddNodeMap(pn->getPoint().getRow(), pn->getPoint().getCol() - 1, pn, gray, black, pq);
+	// try right
+	if (pn->getPoint().getCol() < MSZ - 1)
+		AddNodeMap(pn->getPoint().getRow(), pn->getPoint().getCol() + 1, pn, gray, black, pq);
+}
+
+
+void nextStep(Point2D start, Point2D target)
+{
+	priority_queue <Node*, vector<Node*>, CompareNodes> pq;
+	vector<Node> gray;
+	vector<Node> black;
+	Node *pn;
+	bool stop = false;
+	vector<Node>::iterator gray_it;
+	vector<Node>::iterator black_it;
+	pn = new Node(start, &target, maze[start.getRow()][start.getCol()].GetValue(), 0, nullptr);
+	pq.push(pn);
+	gray.push_back(*pn);
+	while (!pq.empty() && !stop)
+	{
+		// take the best node from pq
+		pn = pq.top();
+		// remove top Node from pq
+		pq.pop();
+		if (pn->getPoint() == target) // the path has been found
+		{
+			stop = true;
+			// restore path to dig tunnels
+			// set SPACE instead of WALL on the path
+			while (!(pn->getPoint() == start))
+			{
+				if (maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != AMMO &&
+					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != MEDICATION &&
+					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != ROOM_SPACE &&
+					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != GROUP_1 &&
+					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].GetValue() != GROUP_2)
+					maze[pn->getPoint().getRow()][pn->getPoint().getCol()].SetValue(SPACE);
+				pn = pn->getParent();
+			}
+			return;
+		}
+		else // pn is not target
+		{
+			// remove Node from gray and add it to black
+			gray_it = find(gray.begin(), gray.end(), *pn); // operator == must be implemented in Node
+			if (gray_it != gray.end())
+				gray.erase(gray_it);
+			black.push_back(*pn);
+			// check the neighbours
+			AddNeighboursChar(pn, gray, black, pq);
+		}
+	}
+}
+
 void main(int argc, char* argv[])
 {
 	glutInit(&argc, argv);
