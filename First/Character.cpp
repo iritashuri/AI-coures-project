@@ -10,13 +10,14 @@ Character::~Character()
 {
 }
 
-Character::Character(int v, int id, Point2D loc)
+Character::Character(int v, int id, int row, int col)
 {
 	value = v;
 	groupId = id;
 	ammoStock = 20;
 	lifeStatus = 100;
-	location = loc;
+	locationRow = row;
+	locationCol = col;
 }
 
 
@@ -50,13 +51,29 @@ int Character::getLifeStatus()
 	return lifeStatus;
 }
 
-void Character::setLocation(Point2D loc)
+void Character::setLocation(int row, int col)
 {
-	location = loc;
+	locationRow = row;
+	locationCol = col;
 }
 
-Point2D Character::getLocation()
+int Character::getRow()
 {
-	return location;
+	return locationRow;
 }
 
+int Character::getCol()
+{
+	return locationCol;
+}
+
+void Character::moveOneStep(Node maze[MSZ][MSZ], int newRow, int newCol)
+{
+	
+	if (maze[newRow][newCol].GetValue() == SPACE || maze[newRow][newCol].GetValue() == ROOM_SPACE ||
+		maze[newRow][newCol].GetValue() == AMMO || maze[newRow][newCol].GetValue() == MEDICATION)
+	{
+		this.setLocation(newRow, newCol);
+	
+	}
+}

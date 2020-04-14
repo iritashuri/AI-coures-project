@@ -27,7 +27,7 @@ int numExistingRooms = 0;
 Bullet* pb = NULL;
 Granade* pg;
 bool move_on = false;
-int medRow, medCol, ammoRow, ammoCol;
+int medRow1, medCol1, medRow2, medCol2, ammoRow1, ammoCol1, ammoRow2, ammoCol2;
 
 
 
@@ -233,7 +233,6 @@ void SetupMaze()
 {
 	int i, j, k;
 	bool isRoom = false;
-	int count = 0;
 
 	for (i = 0; i < MSZ; i++)
 		for (j = 0; j < MSZ; j++)
@@ -250,44 +249,63 @@ void SetupMaze()
 	}
 
 	DigTunnels();
-	//set ammo
-	while (count < 2) {
-		while (!isRoom) {
-			i = rand() % MSZ;
-			j = rand() % MSZ;
-			if (maze[i][j].GetValue() == ROOM_SPACE) {
-				maze[i][j].SetValue(AMMO);
-				ammoRow = i;
-				ammoCol = j;
-				//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
-
+	//set ammo1
+	while (!isRoom) {
+		i = rand() % MSZ;
+		j = rand() % MSZ;
+		if (maze[i][j].GetValue() == ROOM_SPACE) {
+			maze[i][j].SetValue(AMMO);
+			ammoRow1 = i;
+			ammoCol1 = j;
+			//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
 				isRoom = true;
 			}
-
-		}
-		isRoom = false;
-		count++;
 	}
-	//set medication
-	count = 0;
-	while (count < 2) {
-		while (!isRoom) {
-			i = rand() % MSZ;
-			j = rand() % MSZ;
-			if (maze[i][j].GetValue() == ROOM_SPACE) {
-				maze[i][j].SetValue(MEDICATION);
-				medRow = i;
-				medCol = j;
-				//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
-
-				isRoom = true;
-			}
-		}
 		isRoom = false;
-		count++;
+	//set ammo2
+	while (!isRoom) {
+		i = rand() % MSZ;
+		j = rand() % MSZ;
+		if (maze[i][j].GetValue() == ROOM_SPACE) {
+			maze[i][j].SetValue(AMMO);
+			ammoRow2 = i;
+			ammoCol2 = j;
+			//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
+
+			isRoom = true;
+		}
 	}
+	isRoom = false;
+	//set medication1
+	while (!isRoom) {
+		i = rand() % MSZ;
+		j = rand() % MSZ;
+		if (maze[i][j].GetValue() == ROOM_SPACE) {
+			maze[i][j].SetValue(MEDICATION);
+			medRow1 = i;
+			medCol1 = j;
+			//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
+			isRoom = true;
+		}
+	}
+	isRoom = false;
+	//set medication2
+	while (!isRoom) {
+		i = rand() % MSZ;
+		j = rand() % MSZ;
+		if (maze[i][j].GetValue() == ROOM_SPACE) {
+			maze[i][j].SetValue(MEDICATION);
+			medRow2 = i;
+			medCol2 = j;
+			//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
+
+			isRoom = true;
+		}
+	}
+
+	isRoom = false;
 	//set group1
-	count = 0;
+	int count = 0;
 	while (count < 2) {
 		while (!isRoom) {
 			i = rand() % MSZ;
@@ -295,8 +313,6 @@ void SetupMaze()
 			if (maze[i][j].GetValue() == ROOM_SPACE) {
 				maze[i][j].SetValue(GROUP_1);
 				//create character1-2
-				//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
-
 				isRoom = true;
 			}
 		}
@@ -304,6 +320,7 @@ void SetupMaze()
 		count++;
 	}
 	//set group2
+	isRoom = false;
 	count = 0;
 	while (count < 2) {
 		while (!isRoom) {
@@ -312,13 +329,11 @@ void SetupMaze()
 			if (maze[i][j].GetValue() == ROOM_SPACE) {
 				maze[i][j].SetValue(GROUP_2);
 				//create character2
-				//printf("ammo row = %d , ammo col = %d", ammoRow, ammoCol);
-
 				isRoom = true;
 			}
 		}
-		isRoom = false;
-		count++;
+	isRoom = false;
+	count++;
 	}
 }
 
