@@ -1,6 +1,5 @@
 #include "Character.h"
-#include "Point2D.h"
-#include "Node.h"
+
 
 Character::Character()
 {
@@ -67,13 +66,13 @@ int Character::getCol()
 	return locationCol;
 }
 
-void Character::moveOneStep(Node maze[MSZ][MSZ], int newRow, int newCol)
+void Character::moveOneStep(Node maze[100][100], int newRow, int newCol)
 {
 	
 	if (maze[newRow][newCol].GetValue() == SPACE || maze[newRow][newCol].GetValue() == ROOM_SPACE ||
 		maze[newRow][newCol].GetValue() == AMMO || maze[newRow][newCol].GetValue() == MEDICATION)
 	{
-		this.setLocation(newRow, newCol);
+		setLocation(newRow, newCol);
 	
 	}
 }

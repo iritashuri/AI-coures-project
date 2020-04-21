@@ -9,6 +9,7 @@
 #include "CompareNodes.h"
 #include "Bullet.h"
 #include "Granade.h"
+#include "Character.h"
 
 using namespace std;
 
@@ -28,9 +29,8 @@ Bullet* pb = NULL;
 Granade* pg;
 bool move_on = false;
 int medRow1, medCol1, medRow2, medCol2, ammoRow1, ammoCol1, ammoRow2, ammoCol2;
-
-
-
+vector <Character> group1; // gray nodes
+vector <Character> group2; // gray nodes
 
 vector <Node> gray; // gray nodes
 
@@ -233,6 +233,7 @@ void SetupMaze()
 {
 	int i, j, k;
 	bool isRoom = false;
+	Character* pc;
 
 	for (i = 0; i < MSZ; i++)
 		for (j = 0; j < MSZ; j++)
@@ -302,7 +303,6 @@ void SetupMaze()
 			isRoom = true;
 		}
 	}
-
 	isRoom = false;
 	//set group1
 	int count = 0;
@@ -312,7 +312,10 @@ void SetupMaze()
 			j = rand() % MSZ;
 			if (maze[i][j].GetValue() == ROOM_SPACE) {
 				maze[i][j].SetValue(GROUP_1);
+				int v = rand() % 4 + 1;     // v in the range 1 to 4
 				//create character1-2
+				 pc = new Character(v, 1, i, j);
+				 group1.push_back(*pc);
 				isRoom = true;
 			}
 		}
@@ -328,7 +331,10 @@ void SetupMaze()
 			j = rand() % MSZ;
 			if (maze[i][j].GetValue() == ROOM_SPACE) {
 				maze[i][j].SetValue(GROUP_2);
+				int v = rand() % 4 + 1;     // v in the range 1 to 4
 				//create character2
+				pc = new Character(v, 1, i, j);
+				group2.push_back(*pc);
 				isRoom = true;
 			}
 		}

@@ -1,5 +1,8 @@
 #include "Node.h"
+#include "Point2D.h"
+#include "Node.h"
 
+const int MSZ2 = 100;
 const int RUNAWAYER = 0;
 const int KILLER = 1;
 const int MEDICATION_LOVER = 2;
@@ -32,7 +35,6 @@ public:
 	int getLifeStatus();
 	void setLocation(int row, int col);
 	int getRow();
-	void moveOneStep(Node maze[MSZ][MSZ], int newRow, int newCol);
-	int getCol;
-
+	int getCol();
+	void moveOneStep(Node maze[100][100], int newRow, int newCol);
 };
