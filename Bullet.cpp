@@ -1,0 +1,127 @@
+#include "Bullet.h"
+#include "GLUT.H"
+#include <math.h>
+
+
+
+Bullet::Bullet()
+{
+}
+
+Bullet::Bullet(double x, double y)
+{
+	double len;
+	this->x = x;
+	this->y = y;
+	dirx = (rand() % 101) - 50;
+	diry = (rand() % 101) - 50;
+	len = sqrt(dirx*dirx + diry * diry);
+	dirx /= len;
+	diry /= len;
+	isMoving = false;
+	dmg = 40;
+}
+
+
+Bullet::~Bullet()
+{
+}
+
+void Bullet::showMe()
+{
+	glColor3d(0, 0, 0);
+	glBegin(GL_POLYGON);
+	glVertex2d(x - 0.01, y);
+	glVertex2d(x, y + 0.01);
+	glVertex2d(x + 0.01, y);
+	glVertex2d(x, y - 0.01);
+	glEnd();
+}
+
+void Bullet::SetIsMoving(bool move)
+{
+	isMoving = move;
+}
+
+bool Bullet::GetIsMoving()
+{
+	return isMoving;
+}
+
+void Bullet::move(Node maze[MSZ][MSZ])
+{
+	int i, j;
+	i = MSZ * (y + 1) / 2;
+	j = MSZ * (x + 1) / 2;
+
+	if (isMoving && (maze[i][j].GetValue() != WALL))
+	{
+		x += 0.001*dirx;
+		y += 0.001*diry;
+	}
+}
+
+void Bullet::reduceDmg()
+{
+	dmg -= 1;
+}
+
+int Bullet::GetBulletDmg()
+{
+	return dmg;
+}
+
+double Bullet::getX()
+{
+	return x;
+}
+
+double Bullet::getY()
+{
+	return y;
+}
+
+void Bullet::SetDir(double angle)
+{
+	dirx = cos(angle);
+	diry = sin(angle);
+}
+
+void Bullet::SimulateMotion(double map[MSZ][MSZ], Node maze[MSZ][MSZ])
+{
+	int i, j;
+	i = MSZ * (y + 1) / 2;
+	j = MSZ * (x + 1) / 2;
+
+	while (maze[i][j].GetValue() == SPACE || maze[i][j].GetValue() == ROOM_SPACE ||
+		maze[i][j].GetValue() == AMMO || maze[i][j].GetValue() == MEDICATION ||
+		maze[i][j].GetValue() == GROUP_1 || maze[i][j].GetValue() == GROUP_2)
+	{
+		map[i][j] += delta;
+		x += 0.001*dirx;
+		y += 0.001*diry;
+		i = MSZ * (y + 1) / 2;
+		j = MSZ * (x + 1) / 2;
+	}
+
+}
+
+void Bullet::SimulateMotionToSpecDir(double map[MSZ][MSZ], Node maze[MSZ][MSZ],
+	double directionx, double directiony)
+{
+	int i, j;
+	i = MSZ * (y + 1) / 2;
+	j = MSZ * (x + 1) / 2;
+
+	while (maze[i][j].GetValue() == SPACE || maze[i][j].GetValue() == ROOM_SPACE ||
+		maze[i][j].GetValue() == AMMO || maze[i][j].GetValue() == MEDICATION ||
+		maze[i][j].GetValue() == GROUP_1 || maze[i][j].GetValue() == GROUP_2)
+	{
+		map[i][j] += delta;
+		x += 0.001*directionx;
+		y += 0.001*directiony;
+		i = MSZ * (y + 1) / 2;
+		j = MSZ * (x + 1) / 2;
+	}
+
+}
